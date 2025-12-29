@@ -24,6 +24,27 @@ The goal of this project is not to design an SRAM itself, but to treat the SRAM 
 
 ---
 
+## Documentation
+
+Start here and proceed in order:
+
+1. **[Project Plan](docs/00_plan.md)**  
+   Overall scope, milestones (M0–M3), and done criteria.
+
+2. **[Environment Setup](docs/10_env.md)**  
+   Non-destructive OpenLane2 installation and PDK handling.
+
+3. **[Baseline OpenLane2 Flow](docs/20_openlane2.md)**  
+   Minimal end-to-end OpenLane2 run without SRAM.
+
+4. **[SRAM Macro Integration](docs/30_macro_sram.md)**  
+   Blackbox declaration, LEF/GDS integration, fixed macro placement.
+
+5. **[Results and Observations](docs/40_results.md)**  
+   Final GDS generation, limitations, and lessons learned.
+
+---
+
 ## Repository Structure
 
 ```
@@ -57,10 +78,17 @@ openlane2-sram/
 
 ## Milestones (High-Level)
 
-- **M0**: OpenLane2 installation (non-destructive)
-- **M1**: Base design flow (no SRAM)
-- **M2**: SRAM macro placement and floorplan
-- **M3**: Complete routing and GDS generation
+- **M0**: OpenLane2 installation (non-destructive)  
+  → see **[docs/10_env.md](docs/10_env.md)**
+
+- **M1**: Base design flow (no SRAM)  
+  → see **[docs/20_openlane2.md](docs/20_openlane2.md)**
+
+- **M2**: SRAM macro placement and floorplan  
+  → see **[docs/30_macro_sram.md](docs/30_macro_sram.md)**
+
+- **M3**: Complete routing and GDS generation  
+  → see **[docs/40_results.md](docs/40_results.md)**
 
 Each milestone leaves tangible artifacts and documentation.
 
@@ -104,5 +132,3 @@ This repository is developed step by step, with emphasis on clarity and reproduc
 ## License
 
 MIT License
-```
-
