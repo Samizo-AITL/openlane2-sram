@@ -79,6 +79,8 @@ Read in order:
 
 ---
 
+## Repository Structure
+
 ```
 openlane2-sram/
 ├─ README.md
