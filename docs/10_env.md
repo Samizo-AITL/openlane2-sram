@@ -1,7 +1,7 @@
 ---
 title: "Environment Setup: OpenLane2 (Non-Destructive)"
 repository: "openlane2-sram"
-status: "active"
+status: "completed"
 target_pdk: "sky130"
 ---
 
@@ -13,61 +13,73 @@ target_pdk: "sky130"
 This document describes how to install and use **OpenLane2**  
 **without breaking or modifying existing OpenLane (v1) environments**.
 
-The primary goal is **environment isolation and reproducibility**.
+The primary goals are:
+
+- **Environment isolation**
+- **Non-destructive coexistence**
+- **Reproducibility**
+
+OpenLane2 is treated as a **separate toolchain**, not a replacement for OpenLane (v1).
 
 ---
 
 ## Design Principles
 
-This project follows these strict environment rules:
+This project strictly follows these environment rules:
 
 1. **Do not modify existing OpenLane (v1) installations**
 2. **Do not overwrite system-wide Python packages**
 3. **Do not copy PDKs into this repository**
-4. **Use virtual environments and external references only**
+4. **Use Python virtual environments and external references only**
 
-OpenLane2 is treated as a **separate tool**, not a replacement.
+Violating any of these rules risks breaking existing flows or reducing reproducibility.
 
 ---
 
-## Assumed Host Environment
+## Verified Host Environment
 
-- OS: Linux (Ubuntu 20.04 / 22.04 tested)
+This setup has been verified under the following conditions:
+
+- OS: Linux (Ubuntu 20.04 / 22.04)
 - Python: 3.9 or newer
-- Existing OpenLane (v1): Optional, but preserved if present
+- OpenLane (v1): Optional, preserved if present
 - Existing PDK installation: Required (e.g. sky130)
 
-This repository assumes a local environment similar to:
+Typical directory layout:
 
 ```
 $HOME/
- ├─ OpenLane/              (existing OpenLane v1)
+ ├─ OpenLane/              # Existing OpenLane v1 (unchanged)
  ├─ OpenROAD/
  ├─ pdks/
  │   └─ sky130A/
- └─ openlane2-sram/        (this repository)
+ └─ openlane2-sram/        # This repository
 ```
 
 ---
 
 ## Python Virtual Environment (Required)
 
-OpenLane2 **must** be installed in a Python virtual environment.
+OpenLane2 **must** be installed inside a Python virtual environment.
 
-### Create venv
+### Create virtual environment
 
 ```bash
 cd openlane2-sram
 python3 -m venv venv
 ```
 
-### Activate venv
+### Activate virtual environment
 
 ```bash
 source venv/bin/activate
 ```
 
-You should see `(venv)` in your shell prompt.
+The shell prompt should now show:
+
+```
+(venv) user@host:~/openlane2-sram$
+```
 
 ---
 
@@ -86,7 +98,11 @@ Verify installation:
 openlane --version
 ```
 
-This command must work **only inside the venv**.
+Expected behavior:
+- The command works **inside** the virtual environment
+- The command is **not available** outside the virtual environment
+
+This confirms isolation.
 
 ---
 
@@ -94,73 +110,74 @@ This command must work **only inside the venv**.
 
 ### Policy
 
-- PDKs are **not copied** into this repository
-- PDKs are referenced via **environment variables**
-- The same PDK can be shared between OpenLane v1 and OpenLane2
+- PDKs are **not included** in this repository
+- PDKs are referenced using **environment variables**
+- The same PDK installation may be shared between OpenLane v1 and OpenLane2
 
 ### Example: sky130
 
-Set the PDK root path:
+Set environment variables:
 
 ```bash
 export PDK_ROOT=$HOME/pdks
 export PDK=sky130A
 ```
 
-Expected directory:
+Expected directory structure:
 
-```bash
+```
 $PDK_ROOT/sky130A/
 ```
 
-These variables can be placed in:
+These variables can be defined in:
 - `~/.bashrc`, or
-- a project-local script (recommended)
+- a project-local setup script (recommended for reproducibility)
 
 ---
 
-## Verification: Non-Destructive Check
+## Verification: Non-Destructive Coexistence
 
-### Check OpenLane2
+### Verify OpenLane2
 
 ```bash
 source venv/bin/activate
 openlane --version
 ```
 
-### Check existing OpenLane (v1)
+### Verify existing OpenLane (v1)
 
 ```bash
 cd $HOME/OpenLane
 ./flow.tcl -h
 ```
 
-Both must work independently.
+**Both tools must work independently.**
 
-If OpenLane (v1) still runs normally, the setup is **non-destructive**.
+If OpenLane (v1) continues to operate normally, the setup is confirmed to be non-destructive.
 
 ---
 
-## What This Setup Avoids
+## What This Setup Explicitly Avoids
 
-This project explicitly avoids:
+This project intentionally avoids:
 
 - Docker-based OpenLane flows
 - Conda environments
-- System-wide Python installs
-- PATH conflicts between OpenLane versions
+- System-wide Python installations
+- PATH-based OpenLane version switching
 
-This keeps the environment **transparent and debuggable**.
+These choices keep the environment **simple, explicit, and debuggable**.
 
 ---
 
 ## Reproducibility Notes
 
-- All commands required to recreate the environment are documented
-- No hidden dependencies are assumed
-- Manual GUI tools (Magic, KLayout) are optional and external
+- All required commands are documented explicitly
+- No implicit dependencies are assumed
+- GUI tools (KLayout, Magic) are optional and external
+- The environment can be recreated on a fresh machine
 
-This ensures the flow can be reproduced on another machine.
+This ensures long-term reproducibility.
 
 ---
 
@@ -169,8 +186,8 @@ This ensures the flow can be reproduced on another machine.
 After completing this setup, proceed to:
 
 ➡ **`docs/20_openlane2.md`**  
-(Baseline OpenLane2 flow without SRAM)
+(Baseline OpenLane2 flow without SRAM macros)
 
 ---
 
-*Last updated: Environment setup completed*
+*Last updated: OpenLane2 environment verified and used for final GDS generation*
