@@ -59,6 +59,26 @@ Read in order:
 
 ---
 
+### Figure 1: SRAM Macro Block-Level View
+
+<img
+  src="https://raw.githubusercontent.com/Samizo-AITL/openlane2-sram/main/docs/fig/fig01_openlane2_spm_macro_block_level.png"
+  width="80%"
+  alt="SRAM hard macro block-level layout integrated using OpenLane2"
+/>
+
+---
+
+### Figure 2: Standard-Cell / Transistor-Level View Around SRAM
+
+<img
+  src="https://raw.githubusercontent.com/Samizo-AITL/openlane2-sram/main/docs/fig/fig02_openlane2_spm_standard_cell_level.png"
+  width="80%"
+  alt="Standard-cell level placement and routing around SRAM macro"
+/>
+
+---
+
 ```
 openlane2-sram/
 ├─ README.md
