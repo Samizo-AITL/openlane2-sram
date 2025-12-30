@@ -25,8 +25,6 @@ The SRAM is treated strictly as an **external hard macro**
 
 ---
 
----
-
 ## What This Repository Proves
 
 - ✅ OpenLane2 can handle **hard macro integration**
