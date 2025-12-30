@@ -72,7 +72,7 @@ Read in order:
 ### Figure 2: Standard-Cell / Transistor-Level View Around SRAM
 
 <img
-  src="https://raw.githubusercontent.com/Samizo-AITL/openlane2-sram/main/docs/fig/fig02_openlane2_spm_standard_cell_level.png"
+  src="https://raw.githubusercontent.com/Samizo-AITL/openlane2-sram/main/docs/fig/fig02_openlane2_spm_standard_cell_level_view.png"
   width="80%"
   alt="Standard-cell level placement and routing around SRAM macro"
 />
