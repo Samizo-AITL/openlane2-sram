@@ -178,4 +178,27 @@ It provides a solid foundation for further exploration of
 
 ---
 
+## Layout Evidence
+
+### Figure 1: SRAM Macro Block-Level View
+
+<img src="https://raw.githubusercontent.com/Samizo-AITL/openlane2-sram/main/docs/fig/fig01_openlane2_spm_macro_block_level.png"
+     alt="SRAM macro block-level view (OpenLane2)"
+     width="80%">
+
+This figure shows the SRAM hard macro integrated as a fixed block in the final GDS.
+
+---
+
+### Figure 2: Standard-Cell-Level View (SRAM Internal Not Visible)
+
+<img src="https://raw.githubusercontent.com/Samizo-AITL/openlane2-sram/main/docs/fig/fig02_openlane2_spm_standard_cell_level_view.png"
+     alt="Standard-cell-level view around SRAM macro"
+     width="80%">
+
+Only standard-cell geometry is visible.  
+The SRAM macro is treated as a hard macro and its internal transistor-level layout is intentionally abstracted.
+
+---
+
 *Last updated: Final GDS generation verified and documented*
