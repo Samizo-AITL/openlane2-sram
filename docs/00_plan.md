@@ -1,7 +1,7 @@
 ---
 title: "Project Plan: OpenLane2 + SRAM Macro Integration"
 repository: "openlane2-sram"
-status: "planning"
+status: "completed"
 target_pdk: "sky130"
 ---
 
@@ -10,27 +10,30 @@ target_pdk: "sky130"
 
 ## Objective
 
-The objective of this project is to use **OpenLane2** to  
-**integrate an SRAM hard macro into a top-level design, perform place-and-route, and generate a final GDS**.
+The objective of this project is to use **OpenLane2** to:
 
-The SRAM itself is not a design target.  
-It is treated as an **external hard macro (design constraint)**, focusing on realistic physical design integration.
+- Integrate an **SRAM hard macro** into a top-level design  
+- Perform **macro-aware place-and-route**
+- Generate a **final GDS including the SRAM macro**
+
+The SRAM itself is **not a design target**.  
+It is treated strictly as an **external hard macro (physical constraint)** to demonstrate realistic SoC-style physical integration.
 
 ---
 
 ## Scope
 
 ### In Scope
-- Install OpenLane2 **without breaking existing OpenLane (v1) environments**
-- Establish a **baseline OpenLane2 flow** without macros
-- Integrate an SRAM hard macro (LEF / GDS / blackbox)
-- Perform macro-aware floorplanning with halo / keepout
-- Complete placement and routing and **generate a final GDS including the SRAM**
-- Document the flow in a reproducible manner
+- Install **OpenLane2** in an isolated, non-destructive environment
+- Establish a **baseline OpenLane2 flow** (no macros)
+- Integrate an **SRAM hard macro** (LEF / GDS / blackbox)
+- Perform macro-aware floorplanning (FIXED placement, halo / keepout)
+- Complete placement, routing, and **final GDS generation**
+- Document the full flow in a **reproducible and educational manner**
 
 ### Out of Scope
 - SRAM circuit design or generation
-- Redistribution of SRAM macro files
+- Redistribution of proprietary SRAM macro files
 - Full commercial sign-off (complete DRC/LVS closure)
 - Replacement of OpenLane (v1)
 
@@ -39,71 +42,73 @@ It is treated as an **external hard macro (design constraint)**, focusing on rea
 ## Deliverables
 
 ### Documentation
-- `docs/00_plan.md`: Project plan (this document)
+- `docs/00_plan.md`: Project plan and milestones (this document)
 - `docs/10_env.md`: Environment setup and non-destructive installation
-- `docs/20_openlane2.md`: OpenLane2 baseline flow
+- `docs/20_openlane2.md`: Baseline OpenLane2 flow
 - `docs/30_macro_sram.md`: SRAM macro integration
-- `docs/40_results.md`: Results and observations
+- `docs/40_results.md`: Results, warnings, and lessons learned
 
 ### Design Artifacts
-- Baseline GDS (no SRAM)
+- Baseline GDS (standard-cell-only design)
 - Final GDS including SRAM macro
-- Reports (area, timing, routing, etc.)
+- OpenLane2 reports (area, timing, routing, DRC summary)
 
 > PDKs and SRAM macro files are **not included** in this repository.
 
 ---
 
-## Milestones
+## Milestones and Status
 
-### M0: OpenLane2 Installation (Non-Destructive)
+### M0: OpenLane2 Installation (Non-Destructive) ✅
 **Goal**
 - Install OpenLane2 while preserving existing OpenLane (v1) setups
 
-**Done Criteria**
+**Result**
 - OpenLane2 runs inside a Python virtual environment
-- Existing OpenLane (v1) flows continue to work unchanged
+- Existing OpenLane (v1) flows remain unaffected
 
 ---
 
-### M1: Baseline Flow (No SRAM)
+### M1: Baseline Flow (No SRAM) ✅
 **Goal**
-- Validate and fix the basic OpenLane2 flow
+- Validate a minimal end-to-end OpenLane2 flow
 
-**Done Criteria**
-- A small design completes P&R successfully
-- GDS is generated
+**Result**
+- A small design completes placement and routing
+- GDS is generated successfully
 - Steps are documented and reproducible
 
 ---
 
-### M2: SRAM Macro Integration (Placement / Floorplan)
+### M2: SRAM Macro Integration (Placement / Floorplan) ✅
 **Goal**
 - Integrate the SRAM hard macro into the design
 
-**Done Criteria**
-- SRAM blackbox is integrated at RTL level
-- Macro is placed as FIXED with halo / keepout
-- A valid floorplan is established (routing not required at this stage)
+**Result**
+- SRAM is declared as a blackbox at RTL level
+- Macro is placed as **FIXED**
+- Halo / keepout regions are applied
+- Floorplan is stable prior to routing
 
 ---
 
-### M3: Final GDS with SRAM
+### M3: Final GDS with SRAM ✅
 **Goal**
 - Generate a final GDS including the SRAM macro
 
-**Done Criteria**
+**Result**
 - Placement and routing complete successfully
-- Top-level GDS including SRAM is generated
-- Major constraints, issues, and workarounds are documented
+- Final GDS including the SRAM macro is generated
+- Warnings and limitations are analyzed and documented
 
 ---
 
 ## Technical Policy
 
 - SRAM is treated as a **FIXED hard macro**
-- DRC/LVS are handled with **abstract views (LEF / maglef)** where appropriate
-- PDKs and macros are referenced externally (links / environment variables)
+- Only **abstract views (LEF / maglef)** are used for macro checking
+- Internal SRAM DRC/LVS is intentionally excluded
+- PDKs and macros are referenced externally via environment variables
 - Reproducibility is prioritized over manual intervention
 
 ---
@@ -113,19 +118,25 @@ It is treated as an **external hard macro (design constraint)**, focusing on rea
 | Risk | Mitigation |
 |------|------------|
 | SRAM macro redistribution restrictions | Do not include macros; document integration steps only |
-| PDN issues around macro | Expose and address issues early in M2 |
-| Excessive DRC violations | Exclude SRAM internal checks using abstract views |
-| Environment dependency | Use venv and environment variables consistently |
+| PDN issues around macro | Address via floorplan constraints and early checks |
+| Excessive DRC violations | Use abstract views and exclude macro internals |
+| Environment dependency | Use venv and explicit configuration files |
 
 ---
 
 ## Positioning
 
-This repository serves as a  
-**minimal, practical example of macro-aware physical design using OpenLane2**.
+This repository serves as a:
 
-The focus is on **clarity, reproducibility, and realistic constraints**, rather than maximum optimization.
+**Minimal, practical, and reproducible example of macro-aware physical design using OpenLane2**
+
+It is intended for:
+- Engineers transitioning from standard-cell-only flows
+- OpenLane / OpenROAD users integrating hard macros
+- Educational and reference use cases
+
+The focus is on **clarity, realism, and reproducibility**, not maximum optimization.
 
 ---
 
-*Last updated: Initial planning phase*
+*Last updated: Final GDS generation completed*
