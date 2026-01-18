@@ -1,9 +1,6 @@
 ---
-title: "Results and Observations"
-repository: "openlane2-sram"
-status: "completed"
-target_pdk: "sky130"
-milestone: "M3"
+title: "openlane2-sram"
+description: "Macro-aware physical design example using OpenLane2 with an SRAM hard macro"
 ---
 
 # 40. Results and Observations  
