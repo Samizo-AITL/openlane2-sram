@@ -4,38 +4,43 @@ description: "Macro-aware physical design example using OpenLane2 with an SRAM h
 ---
 
 # 40. Results and Observations  
-**Final GDS Generation with SRAM Hard Macro**
+## 📊 Final GDS Generation with SRAM Hard Macro
 
-## Purpose
+---
+
+## 🎯 Purpose
 
 This document summarizes the **final results** of the project, marking the
 successful completion of **M3**.
 
 It focuses on:
 
-- End-to-end **RTL → GDS completion** using OpenLane2
-- Integration of an **SRAM hard macro** as a fixed physical constraint
-- Practical observations from macro-aware physical design
-- Known limitations and lessons learned
+- 🧩 End-to-end **RTL → GDS completion** using OpenLane2
+- 🧱 Integration of an **SRAM hard macro** as a fixed physical constraint
+- 🧠 Practical observations from macro-aware physical design
+- ⚠️ Known limitations and lessons learned
 
 ---
 
-## Final Outcome (Summary)
+## ✅ Final Outcome (Summary)
 
 ### Achieved Results
 
-- OpenLane2 **Classic flow** completed successfully (all stages)
+- OpenLane2 **Classic flow** completed successfully across all stages
 - A **final GDS** was generated that includes:
   - Standard-cell logic
   - An externally provided **SRAM hard macro**
-- The flow is **reproducible** using documented commands and configuration files
+- The entire flow is **fully reproducible** using documented commands and
+  configuration files
 
-This confirms that **OpenLane2 can reliably handle hard macro integration**
-in a realistic physical design flow.
+This confirms that:
+
+> **OpenLane2 can reliably handle hard macro integration  
+> in a realistic SoC-style physical design flow.**
 
 ---
 
-## Generated Artifacts
+## 📦 Generated Artifacts
 
 OpenLane2 produces per-run artifacts under the design directory:
 
@@ -50,7 +55,7 @@ designs/<design_name>/runs/RUN_<timestamp>/
    └─ reports/
 ```
 
-Primary deliverable:
+### Primary Deliverable
 
 - **`final/gds/<design_name>.gds`**  
   Final top-level layout including the SRAM macro
@@ -59,7 +64,7 @@ This GDS has been verified by visual inspection.
 
 ---
 
-## Layout Verification
+## 🔍 Layout Verification
 
 ### Visual Inspection
 
@@ -70,11 +75,11 @@ Using **KLayout**, the following were confirmed:
 - Halo / keepout regions are respected
 - No overlaps between macro and standard-cell placement
 
-This confirms correct macro placement and floorplan enforcement.
+This confirms correct **macro placement and floorplan enforcement**.
 
 ---
 
-## DRC and LVS Status
+## 🧪 DRC and LVS Status
 
 ### DRC
 
@@ -84,69 +89,82 @@ This confirms correct macro placement and floorplan enforcement.
   - Power distribution structures
 - **Internal SRAM DRC is intentionally excluded**
 
-All reported issues are understood and acceptable for this project.
+All reported issues are **understood and acceptable** for this project.
+
+---
 
 ### LVS
 
 - LVS is limited to **top-level connectivity**
 - The SRAM macro is treated as a **blackbox**
-- Full sign-off LVS is **out of scope**
+- Full sign-off LVS is **explicitly out of scope**
 
-This is consistent with the stated project goals.
+This matches the stated project policy.
 
 ---
 
-## Metrics and Observations
+## 📈 Metrics and Observations
 
-Observed trends (qualitative):
+Observed qualitative trends:
 
 - Area utilization increases significantly due to the macro footprint
 - Routing congestion concentrates near macro edges
-- Floorplan quality has a larger impact than synthesis optimization
+- Floorplan quality has a **larger impact** than synthesis optimization
 
-Exact numerical metrics are design- and macro-dependent and are not the primary focus of this work.
+Exact numerical metrics are **design- and macro-dependent** and are not the
+primary focus of this work.
 
 ---
 
-## Key Lessons Learned
+## 🧠 Key Lessons Learned
 
-### 1. Macro Placement Dominates the Design
+### 1️⃣ Macro Placement Dominates the Design
 
 - Macro placement decisions must be made **early**
 - Small placement shifts can drastically affect routability
 
-### 2. PDN Is the First Real Bottleneck
+---
+
+### 2️⃣ PDN Is the First Real Bottleneck
 
 - SRAM power pins must align with the top-level PDN
 - PDN-related issues are the most common cause of failed runs
 
-### 3. Abstract Views Are Essential
+---
+
+### 3️⃣ Abstract Views Are Essential
 
 - LEF / maglef views dramatically reduce DRC noise
 - Attempting full SRAM internal DRC/LVS is impractical
 
-### 4. OpenLane2 Is Macro-Capable but Explicit
+---
+
+### 4️⃣ OpenLane2 Is Macro-Capable but Explicit
 
 - Macro integration is **not automatic**
 - Constraints must be expressed explicitly
-- The flow is transparent and debuggable compared to OpenLane (v1)
+- The flow is more **transparent and debuggable**
+  than OpenLane (v1)
 
 ---
 
-## Known Limitations
+## ⚠️ Known Limitations
 
-The following limitations are intentional:
+The following limitations are **intentional**:
 
 - Single SRAM macro only
 - No advanced timing optimization
 - CTS behavior around macros not tuned
 - No production-grade sign-off
 
-This repository prioritizes **clarity and reproducibility** over maximum optimization.
+This repository prioritizes:
+
+> **Clarity · Realism · Reproducibility**  
+> over maximum optimization.
 
 ---
 
-## Recommended Next Experiments
+## 🔬 Recommended Next Experiments
 
 Possible extensions include:
 
@@ -156,11 +174,11 @@ Possible extensions include:
 - Comparison with OpenLane (v1) macro handling
 - Integration of OpenRAM-generated SRAM macros
 
-These can be explored without changing the repository structure.
+These can be explored **without changing the repository structure**.
 
 ---
 
-## Final Remarks
+## 🧭 Final Remarks
 
 This project demonstrates a **practical, macro-aware OpenLane2 workflow**.
 
@@ -170,12 +188,13 @@ Its value lies in:
 - Explicit physical constraints
 - Fully reproducible, documented steps
 
-It provides a solid foundation for further exploration of
-**macro-based physical design using OpenLane2**.
+It provides a solid foundation for further exploration of:
+
+> **Macro-based physical design using OpenLane2**
 
 ---
 
-## Layout Evidence
+## 🖼 Layout Evidence
 
 ### Figure 1: SRAM Macro Block-Level View
 
@@ -183,19 +202,21 @@ It provides a solid foundation for further exploration of
      alt="SRAM macro block-level view (OpenLane2)"
      width="80%">
 
-This figure shows the SRAM hard macro integrated as a fixed block in the final GDS.
+The SRAM hard macro is integrated as a **fixed block** in the final GDS.
 
 ---
 
-### Figure 2: Standard-Cell-Level View (SRAM Internal Not Visible)
+### Figure 2: Standard-Cell-Level View  
+*(SRAM Internal Layout Not Visible)*
 
 <img src="https://raw.githubusercontent.com/Samizo-AITL/openlane2-sram/main/docs/fig/fig02_openlane2_spm_standard_cell_level_view.png"
      alt="Standard-cell-level view around SRAM macro"
      width="80%">
 
 Only standard-cell geometry is visible.  
-The SRAM macro is treated as a hard macro and its internal transistor-level layout is intentionally abstracted.
+The SRAM macro is treated as a hard macro and its internal transistor-level
+layout is intentionally abstracted.
 
 ---
 
-*Last updated: Final GDS generation verified and documented*
+*Last updated: Final GDS generation verified and documented* ✅
