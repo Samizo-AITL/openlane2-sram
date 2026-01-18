@@ -4,54 +4,63 @@ description: "Macro-aware physical design example using OpenLane2 with an SRAM h
 ---
 
 # 30. SRAM Hard Macro Integration  
-**Macro-Aware Floorplanning in OpenLane2 (Classic Flow)**
-
-## Purpose
-
-This document explains how an **SRAM hard macro** is integrated into an
-**OpenLane2 Classic flow**.
-
-The SRAM is treated strictly as an **external, fixed hard macro**.
-It is **not synthesized**, **not optimized**, and **not modified** by OpenLane2.
-
-The focus is on:
-
-- Blackbox RTL integration
-- Abstract physical views (LEF / GDS)
-- Fixed macro placement
-- Macro-aware floorplanning using OpenROAD
+## 🧱 Macro-Aware Floorplanning in OpenLane2 (Classic Flow)
 
 ---
 
-## Key Reality Check (Important)
+## 🎯 Purpose
 
-OpenLane2 **does not have a first-class “macro” concept**.
+This document explains how an **SRAM hard macro** is integrated into an  
+**OpenLane2 Classic flow**.
+
+The SRAM is treated strictly as an **external, fixed hard macro**.
+
+- ❌ Not synthesized  
+- ❌ Not optimized  
+- ❌ Not modified  
+
+The focus is on **physical integration**, specifically:
+
+- 🧩 Blackbox RTL integration
+- 📐 Abstract physical views (LEF / GDS)
+- 📍 Fixed macro placement
+- 🧭 Macro-aware floorplanning using OpenROAD
+
+---
+
+## ⚠️ Key Reality Check (Important)
+
+OpenLane2 **does not have a first-class “macro” abstraction**.
 
 Instead:
 
 - Macros are handled through **OpenROAD inputs**
 - Placement constraints are enforced via **OpenROAD TCL**
 - Configuration is driven by **JSON**, not YAML
-- Macro integration is a **physical design constraint problem**, not a synthesis feature
+- Macro integration is a **physical design constraint problem**,  
+  not a synthesis feature
 
-This document reflects **what actually works**, not a conceptual abstraction.
+This document reflects **what actually works in practice**,  
+not an idealized abstraction.
 
 ---
 
-## SRAM Macro Policy
+## 📜 SRAM Macro Policy
+
+The following policies are enforced throughout this project:
 
 - SRAM is a **hard macro**
-- SRAM is **FIXED**
+- SRAM placement is **FIXED**
 - SRAM internal DRC/LVS is **out of scope**
 - Only **abstract views** are used during P&R
 
-This mirrors real SoC physical design practice.
+This mirrors real-world SoC physical design methodology.
 
 ---
 
-## Required SRAM Files
+## 📦 Required SRAM Files
 
-The following files must be provided **externally**:
+The following files must be provided **externally** by the user:
 
 | File | Purpose |
 |-----|--------|
@@ -60,13 +69,13 @@ The following files must be provided **externally**:
 | `sram_blackbox.v` | Verilog blackbox |
 | `sram.lib` | (Optional) timing model |
 
-> These files are **not included** in this repository.
+> ⚠️ These files are **not included** in this repository.
 
 ---
 
-## Macro Directory Convention
+## 📁 Macro Directory Convention
 
-Recommended (but not mandatory) structure:
+Recommended (but not mandatory) directory structure:
 
 ```
 macro/
@@ -78,13 +87,13 @@ macro/
    └─ sram_blackbox.v
 ```
 
-Only the **integration method** is documented here.
+Only the **integration methodology** is documented here.
 
 ---
 
-## RTL Integration (Blackbox)
+## 🧩 RTL Integration (Blackbox)
 
-### SRAM Blackbox
+### ▶ SRAM Blackbox Definition
 
 **`design/src/sram_blackbox.v`**
 
@@ -100,11 +109,12 @@ module sram (
 endmodule
 ```
 
-No logic is defined.
+- No logic is defined
+- Synthesis treats this module as an **unresolved blackbox**
 
 ---
 
-### Top-Level Instantiation
+### ▶ Top-Level Instantiation
 
 **`design/src/top.v`**
 
@@ -131,21 +141,21 @@ sram u_sram (
 endmodule
 ```
 
-Synthesis treats `sram` as an unresolved blackbox.
+No SRAM logic is inferred or synthesized.
 
 ---
 
-## OpenLane2 Configuration (JSON-Based)
+## ⚙️ OpenLane2 Configuration (JSON-Based)
 
 OpenLane2 Classic flow is driven by **JSON configuration files**.
 
-### Key Inputs
+### Key Integration Points
 
-- Verilog sources include the blackbox
-- LEF and GDS are passed to OpenROAD
-- No YAML macro sections are used
+- Verilog sources include the SRAM blackbox
+- LEF and GDS files are passed to OpenROAD
+- No YAML-based macro sections are used
 
-Example (conceptual):
+Conceptual example:
 
 ```json
 {
@@ -162,22 +172,23 @@ Example (conceptual):
 }
 ```
 
-Exact filenames and paths depend on the design directory.
+> ⚠️ Exact filenames and paths depend on the design directory structure.
 
 ---
 
-## Fixed Macro Placement (OpenROAD)
+## 📍 Fixed Macro Placement (OpenROAD)
 
-Macro placement is enforced using **OpenROAD commands**, not config keys.
+Macro placement is enforced using **OpenROAD TCL commands**,  
+not JSON configuration keys.
 
-Typical actions:
+Typical operations:
 
 - Read macro LEF
 - Read macro GDS
 - Place macro at fixed coordinates
 - Apply halo / keepout
 
-Conceptually:
+Conceptual example:
 
 ```tcl
 place_macro u_sram 100 100 N
@@ -189,31 +200,34 @@ These commands are executed **before standard-cell placement**.
 
 ---
 
-## Floorplanning Strategy
+## 🧭 Floorplanning Strategy
 
-- SRAM placement dominates the floorplan
+Key principles:
+
+- SRAM placement **dominates the floorplan**
 - Standard cells are placed *around* the macro
 - Routing channels must be preserved
-- Die size may need to be enlarged early
+- Die size often needs early enlargement
 
-Poor macro placement cannot be fixed later.
+⚠️ Poor macro placement cannot be corrected later in the flow.
 
 ---
 
-## PDN Considerations
+## 🔌 PDN Considerations
 
 - SRAM power pins must align with the top-level PDN
 - LEF power pin names must match the PDK
-- PDN issues are common and expected
+- PDN-related errors are **common and expected**
 
-Typical mitigation:
-- Inspect macro LEF
-- Adjust PDN straps
+Typical mitigations:
+
+- Inspect macro LEF carefully
+- Adjust PDN straps if needed
 - Accept simplified PDN for demonstration flows
 
 ---
 
-## DRC / LVS Policy
+## 🧪 DRC / LVS Policy
 
 - SRAM internal DRC/LVS is **not performed**
 - Abstract views are used
@@ -222,51 +236,53 @@ Typical mitigation:
   - Routing conflicts
   - Pin accessibility
 
-This is an explicit trade-off.
+This is an **explicit and intentional trade-off**.
 
 ---
 
-## Expected Outcomes (M2)
+## ✅ Expected Outcomes (M2)
+
+At the end of this step:
 
 - SRAM macro is visible in the floorplan
-- Macro is FIXED with halo
-- Standard cells are placed legally around it
+- Macro is placed as **FIXED** with halo
+- Standard cells are placed legally around the macro
 - Routing may still be incomplete
 
-A final GDS is **not required** at this stage.
+⚠️ A final GDS is **not required** at this stage.
 
 ---
 
-## Common Failure Modes
+## ❌ Common Failure Modes
 
 | Issue | Cause | Mitigation |
 |-----|------|------------|
 | Macro overlaps cells | Missing halo | Increase halo |
 | Congestion | Poor placement | Move macro / resize die |
 | PDN errors | Pin mismatch | Inspect LEF |
-| CTS issues | Clock near macro | Reroute clock |
+| CTS issues | Clock routed near macro | Reroute clock |
 
 ---
 
-## Role of This Step
+## 🧭 Role of This Step
 
 This step proves that:
 
-- OpenLane2 can handle hard macros
-- Macro placement can be controlled
-- The flow remains deterministic
+- OpenLane2 can integrate hard macros
+- Macro placement can be controlled deterministically
+- The flow remains stable under macro constraints
 
-Only after this is validated should final routing be attempted.
+Only after this is validated should **final routing and sign-off-style runs** be attempted.
 
 ---
 
-## Next Step
+## ➡ Next Step
 
 Proceed to:
 
 ➡ **`docs/40_results.md`**  
-(Final GDS generation, warnings, and lessons learned)
+_Final GDS generation, warnings, and lessons learned_
 
 ---
 
-*Last updated: SRAM macro integration validated in OpenLane2 Classic flow*
+*Last updated: SRAM macro integration validated in OpenLane2 Classic flow* ✅
