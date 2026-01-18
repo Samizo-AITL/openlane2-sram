@@ -1,10 +1,10 @@
-# openlane2-sram
+---
+title: "openlane2-sram"
+description: "Macro-aware physical design example using OpenLane2 with an SRAM hard macro"
+---
 
-This repository demonstrates **macro-aware physical design** using **OpenLane2 (v2)**  
-by integrating an **SRAM hard macro** into a complete RTL → GDS flow.
-
-The focus is **not SRAM design**, but **realistic integration of a hard macro**
-(LEF / GDS / blackbox) into an OpenLane2-based physical design flow.
+# 🧱 openlane2-sram  
+**Macro-Aware Physical Design with OpenLane2 (SRAM Hard Macro Integration)**
 
 ---
 
@@ -16,58 +16,70 @@ The focus is **not SRAM design**, but **realistic integration of a hard macro**
 
 ---
 
-## Project Goal
+## 📌 Project Overview
 
-- Use **OpenLane2** correctly and reproducibly
-- Treat SRAM as an **external hard macro**
-- Complete floorplanning, placement, routing
-- Generate a **final GDS including the SRAM macro**
-- Document the entire process for reuse and education
+# 🧱 openlane2-sram
+
+This repository demonstrates **macro-aware physical design** using **OpenLane2 (v2)**  
+by integrating an **SRAM hard macro** into a complete **RTL → GDS** flow.
+
+The focus is **not SRAM design**, but **realistic integration of a hard macro**  
+(LEF / GDS / blackbox) into an **OpenLane2-based physical design flow**.
 
 ---
 
-## Scope
+## 🎯 Project Goal
 
-### What this project does
-- Install and run **OpenLane2 (non-destructive setup)**
-- Execute a baseline OpenLane2 flow (standard-cell only)
-- Integrate an **SRAM hard macro**:
+- ✅ Use **OpenLane2** correctly and reproducibly
+- 🧱 Treat SRAM as an **external hard macro**
+- 🗺 Complete **floorplanning, placement, and routing**
+- 📦 Generate a **final GDS including the SRAM macro**
+- 📘 Document the entire process for **reuse and education**
+
+---
+
+## 📐 Scope
+
+### ✔ What this project does
+- 🛠 Install and run **OpenLane2** (non-destructive setup)
+- ▶ Execute a **baseline OpenLane2 flow** (standard-cell only)
+- 🧠 Integrate an **SRAM hard macro**:
   - Verilog blackbox
   - LEF / GDS inclusion
   - Fixed macro placement
-- Complete routing and GDS generation
-- Provide **step-by-step documentation**
+- 🔗 Complete routing and **GDS generation**
+- 📚 Provide **step-by-step documentation**
 
-### What this project does NOT do
-- Design or synthesize an SRAM
-- Distribute proprietary SRAM macro files
-- Perform full commercial sign-off (LVS / advanced DRC)
-- Support legacy OpenLane (v1)
+### ✖ What this project does NOT do
+- ❌ Design or synthesize an SRAM
+- ❌ Distribute proprietary SRAM macro files
+- ❌ Perform full commercial sign-off (LVS / advanced DRC)
+- ❌ Support legacy OpenLane (v1)
 
 ---
 
-## Documentation Guide
+## 📚 Documentation Guide
 
-Read in order:
+Please read in the following order:
 
-1. **[Project Plan](docs/00_plan.md)**  
+1. 📘 **[Project Plan](docs/00_plan.md)**  
    Scope definition, milestones (M0–M3), and completion criteria.
 
-2. **[Environment Setup](docs/10_env.md)**  
+2. 🛠 **[Environment Setup](docs/10_env.md)**  
    OpenLane2 installation, Python environment, and PDK handling.
 
-3. **[Baseline OpenLane2 Flow](docs/20_openlane2.md)**  
+3. ▶ **[Baseline OpenLane2 Flow](docs/20_openlane2.md)**  
    Minimal RTL → GDS run without macros.
 
-4. **[SRAM Macro Integration](docs/30_macro_sram.md)**  
-   Blackbox declaration, LEF/GDS usage, macro placement strategy.
+4. 🧠 **[SRAM Macro Integration](docs/30_macro_sram.md)**  
+   Blackbox declaration, LEF/GDS usage, and macro placement strategy.
 
-5. **[Results and Observations](docs/40_results.md)**  
+5. 📊 **[Results and Observations](docs/40_results.md)**  
    Final GDS, warnings, limitations, and lessons learned.
 
 ---
 
-### Figure 1: SRAM Macro Block-Level View
+### 🖼 Figure 1: SRAM Macro Block-Level View
 
 <img
   src="https://raw.githubusercontent.com/Samizo-AITL/openlane2-sram/main/docs/fig/fig01_openlane2_spm_macro_block_level.png"
@@ -77,7 +89,7 @@ Read in order:
 
 ---
 
-### Figure 2: Standard-Cell / Transistor-Level View Around SRAM
+### 🔬 Figure 2: Standard-Cell / Transistor-Level View Around SRAM
 
 <img
   src="https://raw.githubusercontent.com/Samizo-AITL/openlane2-sram/main/docs/fig/fig02_openlane2_spm_standard_cell_level_view.png"
@@ -87,7 +99,12 @@ Read in order:
 
 ---
 
-## Repository Structure
+## 🗂 Repository Structure
+
+This repository is structured to clearly separate  
+**documentation**, **design inputs**, and **generated artifacts**.
+
+### 📁 Top-Level
 
 ```
 openlane2-sram/
@@ -116,53 +133,55 @@ openlane2-sram/
 
 ---
 
-## Milestones
+## 🏁 Milestones
 
-- **M0**: OpenLane2 installation  
-- **M1**: Baseline RTL → GDS flow  
-- **M2**: SRAM macro integration and floorplanning  
-- **M3**: Routing completion and final GDS generation  
+- **M0** 🛠: OpenLane2 installation  
+- **M1** ▶: Baseline RTL → GDS flow  
+- **M2** 🧱: SRAM macro integration and floorplanning  
+- **M3** 📦: Routing completion and final GDS generation  
 
 Each milestone produces **verifiable artifacts**.
 
 ---
 
-## SRAM Macro Policy
+## 🧠 SRAM Macro Policy
 
-SRAM macros are treated as **external hard macros**.
+SRAM macros are treated strictly as **external hard macros**.
 
-- No SRAM GDS / LEF files are included
-- Users must provide or link their own macros
-- This repository documents **integration methodology only**
+- 🚫 No SRAM GDS / LEF files are included
+- 🔗 Users must provide or link their own macros
+- 📘 This repository documents **integration methodology only**
 
-This keeps the project license-safe and reusable.
-
----
-
-## PDK
-
-- Target PDK: **Sky130**
-- PDK files are **not included**
-- The flow assumes an existing local PDK installation
+This keeps the project **license-safe** and **reusable**.
 
 ---
 
-## Intended Audience
+## 🧩 PDK
 
-- OpenLane2 / OpenROAD users moving beyond standard-cell-only flows
-- Engineers learning **macro-aware floorplanning**
-- Educators preparing realistic physical design examples
+- 🎯 Target PDK: **Sky130**
+- 🚫 PDK files are **not included**
+- 💻 The flow assumes an existing **local PDK installation**
 
 ---
 
-## Status
+## 🎓 Intended Audience
+
+- 🛠 OpenLane2 / OpenROAD users moving beyond standard-cell-only flows
+- 🧠 Engineers learning **macro-aware floorplanning**
+- 📘 Educators preparing **realistic physical design examples**
+
+---
+
+## 📊 Status
 
 ✔️ Baseline flow and SRAM macro integration verified  
-This repository evolves incrementally with emphasis on **clarity and reproducibility**.
+
+This repository evolves incrementally with emphasis on  
+**clarity**, **reproducibility**, and **realistic physical design practice**.
 
 ---
 
-## Author
+## 👤 Author
 
 | 📌 Item | Details |
 |--------|---------|
@@ -172,7 +191,7 @@ This repository evolves incrementally with emphasis on **clarity and reproducibi
 
 ---
 
-## License
+## 📄 License
 
 [![Hybrid License](https://img.shields.io/badge/license-Hybrid-blueviolet)](https://samizo-aitl.github.io/aitl-contller-a-type//#-license)
 
@@ -185,7 +204,7 @@ This repository evolves incrementally with emphasis on **clarity and reproducibi
 
 ---
 
-## Feedback
+## 💬 Feedback
 
 > Suggestions, improvements, and discussions are welcome via GitHub Discussions.
 
