@@ -18,8 +18,6 @@ description: "Macro-aware physical design example using OpenLane2 with an SRAM h
 
 ## 📌 Project Overview
 
-# 🧱 openlane2-sram
-
 This repository demonstrates **macro-aware physical design** using **OpenLane2 (v2)**  
 by integrating an **SRAM hard macro** into a complete **RTL → GDS** flow.
 
