@@ -188,7 +188,7 @@ This repository evolves incrementally with emphasis on
 
 ## 📄 License
 
-[![Hybrid License](https://img.shields.io/badge/license-Hybrid-blueviolet)](https://samizo-aitl.github.io/aitl-contller-a-type//#-license)
+[![Hybrid License](https://img.shields.io/badge/license-Hybrid-blueviolet)](https://samizo-aitl.github.io/openlane2-sram/#---license)
 
 | 📌 Item | License | Description |
 |--------|---------|-------------|
